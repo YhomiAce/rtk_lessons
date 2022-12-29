@@ -5,12 +5,15 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import { store } from './store';
-import { fetchUsers } from './features/users/usersSlice';
+import { extendedUserApiSlice } from './features/users/usersSlice';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { fetchPosts } from './features/posts/postsSlice';
+import { extendedApiSlice } from './features/posts/postsSlice';
+// import { fetchPosts } from './features/posts/postsSlice';
 
-store.dispatch(fetchPosts());
-store.dispatch(fetchUsers());
+// store.dispatch(fetchPosts());
+store.dispatch(extendedApiSlice.endpoints.getPosts.initiate());
+store.dispatch(extendedUserApiSlice.endpoints.getUsers.initiate());
+// store.dispatch(fetchUsers());
 
 const app = (
   <Provider store={store}>

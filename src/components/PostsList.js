@@ -1,22 +1,20 @@
-import { useSelector, } from "react-redux"
-import { selectAllPosts, getPostError, getPostStatus } from "../features/posts/postsSlice";
+// import { useSelector, } from "react-redux"
+import { useGetPostsQuery } from "../features/posts/postsSlice";
 import PostItem from "./PostItem";
 
-
 const PostsList = () => {
-    const posts = useSelector(selectAllPosts);
-    const status = useSelector(getPostStatus);
-    const error = useSelector(getPostError);
+    const {data: posts, isError, isLoading, error, isSuccess} = useGetPostsQuery()
 
     let content;
-    if (status === 'loading') {
+    if (isLoading) {
         content = <p>Loading.....</p>
-    }else if (status === 'succeeded') {
-        console.log(posts);
-        content = posts.map(post => (
-            <PostItem key={post.id} post={post} />
+    }else if (isSuccess) {
+        // console.log(posts);
+        const { entities, ids} = posts;
+        content = ids.map(id => (
+            <PostItem key={id} post={entities[id]} />
         ));
-    }else if (status === 'failed') {
+    }else if (isError) {
         content = <p> {error} </p>
     }
     
